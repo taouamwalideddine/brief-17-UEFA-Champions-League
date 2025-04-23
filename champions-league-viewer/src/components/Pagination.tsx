@@ -1,30 +1,32 @@
+import React from 'react';
+
 interface PaginationProps {
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
+  matchesPerPage: number;
+  totalMatches: number;
+  paginate: (pageNumber: number) => void;
+  currentPage: number;
+}
+
+const Pagination: React.FC<PaginationProps> = ({ matchesPerPage, totalMatches, paginate, currentPage }) => {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= Math.ceil(totalMatches / matchesPerPage); i++) {
+    pageNumbers.push(i);
   }
-  
-  export default function Pagination({
-    currentPage,
-    totalPages,
-    onPageChange,
-  }: PaginationProps) {
-    return (
-      <div className="flex justify-center space-x-2 mt-6">
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => onPageChange(index + 1)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center ${
-              currentPage === index + 1
-                ? "bg-blue-600 text-white"
-                : "bg-blue-300"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
-    );
-  }
-  
+
+  return (
+    <div className="flex justify-center mt-6 space-x-2">
+      {pageNumbers.map(number => (
+        <button
+          key={number}
+          onClick={() => paginate(number)}
+          className={`w-8 h-8 rounded-full ${currentPage === number ? 'bg-blue-500 text-white' : 'bg-slate-800 text-gray-300'}`}
+        >
+          {number}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+export default Pagination;
