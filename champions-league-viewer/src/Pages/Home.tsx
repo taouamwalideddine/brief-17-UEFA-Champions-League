@@ -29,19 +29,20 @@ const Home: React.FC = () => {
         const data = await response.json();
         
         const formattedMatches: Match[] = data.events.map((event: any) => ({
-          id: event.id,
-          date: new Date(event.startTimestamp * 1000).toLocaleDateString(),
-          homeTeam: event.homeTeam.name,
-          awayTeam: event.awayTeam.name,
-          homeScore: event.homeScore.display ?? 0,
-          awayScore: event.awayScore.display ?? 0,
-          homeLogo: event.homeTeam.slug,  // You can replace slug with logo URL if available
-          awayLogo: event.awayTeam.slug,
-          status: event.status.type,
-          winner: event.winnerCode === 1 ? event.homeTeam.name : event.awayTeam.name,
-          aggregateScore: '4 - 5', // Mocked for now
-          qualified: event.homeTeam.name, // Mocked for now
-        }));
+            id: event.id,
+            date: new Date(event.startTimestamp * 1000).toLocaleDateString(),
+            homeTeam: event.homeTeam.name,
+            awayTeam: event.awayTeam.name,
+            homeScore: event.homeScore?.display ?? 0,
+            awayScore: event.awayScore?.display ?? 0,
+            homeLogo: `https://api.sofascore.app/api/v1/team/${event.homeTeam.id}/image`,
+            awayLogo: `https://api.sofascore.app/api/v1/team/${event.awayTeam.id}/image`,
+            status: event.status.type,
+            winner: event.winnerCode === 1 ? event.homeTeam.name : event.awayTeam.name,
+            aggregateScore: '4 - 5', // Mock for now
+            qualified: event.homeTeam.name, // Mock for now
+          }));
+          
 
         setMatches(formattedMatches);
       } catch (error) {
